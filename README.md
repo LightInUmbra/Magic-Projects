@@ -30,7 +30,6 @@ This project is a growing collection of MTG tools built around the Scryfall API,
 - FastAPI (Planned)
 
 ## Project Structure
-\`
 Magic-Projects/
     classes/
         card.py            # Card class mapping Scryfall API fields
@@ -38,7 +37,6 @@ Magic-Projects/
         ScryFunctions.py   # All API interaction functions
     main.py                # Entry point to program
     requirements.txt       # Holds all libraries needed for program
-\`
 
 ## Setup
 1. Clone the repo
