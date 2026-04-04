@@ -1,21 +1,10 @@
 # Magic Projects 🃏
-A python toolkit for Magic: The Gathering - Card Searching, price
 
-tracking, collection management, and deck analysis! It'll be used
-
-for multiple formats. I'm just working out the kinks. This is my
-
-very first full-fledged project that I feel confident in
-
-releasing and showing my progress with.
+A Python toolkit for Magic: The Gathering - Card Searching, price tracking, collection management, and deck analysis! It'll be used for multiple formats. I'm just working out the kinks. This is my very first full-fledged project that I feel confident in releasing and showing my progress with.
 
 ## Overview
 
-This project (Magic Projects name TBD) is a growing collection of
-
-MTG tools built around the Scryfall API, planned to eventually
-
-become a full web application!
+This project is a growing collection of MTG tools built around the Scryfall API, planned to eventually become a full web application! For now, MAgic Projects will be its name.
 
 ### Current Features
 
@@ -41,6 +30,7 @@ become a full web application!
 - FastAPI (Planned)
 
 ## Project Structure
+\```
 Magic-Projects/
     classes/
         card.py            # Card class mapping Scryfall API fields
@@ -48,6 +38,7 @@ Magic-Projects/
         ScryFunctions.py   # All API interaction functions
     main.py                # Entry point to program
     requirements.txt       # Holds all libraries needed for program
+\```
 
 ## Setup
 1. Clone the repo
@@ -56,10 +47,16 @@ Magic-Projects/
 
 ## A Note on the Project
 
-This IS something I'm passionate about. I love Magic: The Gathering.
-I also love to code. Coding has been my passion for over a decade,
-but I've always been shy of showcasing my work. This project will be
-maintained and developed as my personal learning project and portfolio
-piece. Above all, this is a project I'm really passionate in making!
+This IS something I'm passionate about. I love Magic: The Gathering. I also love to code. Coding has been my passion for over a decade, but I've always been shy of showcasing my work. This project will be maintained and developed as my personal learning project and portfolio piece. Above all, this is a project I'm really passionate in making!
 
 I hope whoever uses this enjoys it~
+
+## Sample Output
+![Terminal output showing card search results](assets/Screenshot-of-program-output.png)
+
+The current program demonstrates:
+- Exact card lookup by name
+- All physical printings with pricing (USD, EUR, TIX)
+- Multi-card search with result count
+- Color identity display
+- Price listing across search results

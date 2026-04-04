@@ -132,11 +132,17 @@ def get_all_printings(card):
     
         print(f"Card Name: {card_pulled.name}\n")
         for printing in list_of_prints:
+            price_nonfoil = printing['pricing']['price_nonfoil']
+            price_foil    = printing['pricing']['price_foil']
+            price_eur     = printing['pricing']['price_eur']
+            price_tix     = printing['pricing']['price_tix']
+            
             print(f"Set: {printing['set']}")
-            print(f"Pricing USD Nonfoil: ${printing['pricing']['price_nonfoil']}")
-            print(f"Pricing USD foil: ${printing['pricing']['price_foil']}")
-            print(f"Pricing EUR: ${printing['pricing']['price_eur']}")
-            print(f"Pricing TIX: {printing['pricing']['price_tix']}\n")
+            print(f"  USD Nonfoil : {'N/A' if price_nonfoil == 0.0 else f'${price_nonfoil:.2f}'}")
+            print(f"  USD Foil    : {'N/A' if price_foil == 0.0 else f'${price_foil:.2f}'}")
+            print(f"  EUR         : {'N/A' if price_eur == 0.0 else f'${price_eur:.2f}'}")
+            print(f"  TIX         : {'N/A' if price_tix == 0.0 else f'{price_tix:.2f}'}")
+            print(f"{'─' * 35}")  # separator between printings
         t.sleep(0.1)    
 
     else:
