@@ -43,8 +43,21 @@ Magic-Projects/
 
 ## Setup
 1. Clone the repo
-2. Install dependencies: pip install -r requirements.txt
-3. Run: python main.py
+2. Create a virtual environment:
+    > python -m venv .venv
+3. Activate it:
+    - Windows: `.venv\Scripts\activate`
+    - Mac/Linux: `source .venv/bin/activate`
+4. Install dependencies: 
+    > pip install -r requirements.txt
+5. Run: `python main.py`
+
+### Using uv package/project manager (for Python 3.14+ environments)
+1. Clone the repo
+2. Run:
+    > uv venv
+    > uv pip install -r requirements.txt
+    > python main.py
 
 ## A Note on the Project
 
