@@ -55,9 +55,9 @@ Magic-Projects/
 ### Using uv package/project manager (for Python 3.14+ environments)
 1. Clone the repo
 2. Run:
-    > uv venv
-    > uv pip install -r requirements.txt
-    > python main.py
+    a. `uv venv`
+    b. `uv pip install -r requirements.txt`
+    c. `python main.py`
 
 ## A Note on the Project
 
