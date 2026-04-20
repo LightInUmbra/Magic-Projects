@@ -69,3 +69,108 @@ class Card:
 
     def __repr__(self):
         return f"Card('{self.name}', {self.set}, {self.rarity})"
+    
+    """
+    Getters
+    """
+    
+    # Core Identity
+    
+    def get_id(self, id):
+        return self.id
+    
+    def get_oracle_id(self, oracle_id):
+        return self.oracle_id
+    
+    def get_name(self, name):
+        return self.name
+    
+    def get_layout(self, layout):
+        return self.layout
+    
+    def get_language(self, lang):
+        return self.lang
+    
+    # Gameplay
+    
+    def get_mana_cost(self, mana_cost):
+        return self.mana_cost
+    
+    def get_cmc(self, cmc):
+        return self.cmc
+    
+    def get_type_line(self, type_line):
+        return self.type_line
+    
+    def get_oracle_text(self, oracle_text):
+        return self.oracle_text
+    
+    def get_colors(self, colors):
+        return self.colors
+    
+    def get_color_identity(self, color_identity):
+        return self.color_identity
+    
+    def get_keywords(self, keywords):
+        return self.keywords
+    
+    def get_power(self, power):
+        return self.power
+    
+    def get_toughness(self, toughness):
+        return self.toughness
+    
+    def get_loyalty(self, loyalty): # For planewalkers
+        return self.loyalty
+    
+    def get_defense(self, defense): # For battles
+        return self.defense
+    
+    # Print / Edition Info
+    
+    def get_set(self, set):
+        return self.set
+    
+    def get_set_name(self, set_name):
+        return self.set_name
+    
+    def get_set_type(self, set_type):
+        return self.set_type
+    
+    def get_collector_number(self, collector_number):
+        return self.collector_number
+    
+    def get_rarity(self, rarity):
+        return self.rarity
+    
+    def get_artist(self, artist):
+        return self.artist
+    
+    def get_released_at(self, released_at):
+        return self.released_at
+    
+    def get_reprint(self, reprint):
+        return self.reprint
+    
+    def get_digital(self, digital):
+        return self.digital
+    
+    def get_booster(self, booster):
+        return self.booster
+    
+    def get_frame(self, frame):
+        return self.frame
+    
+    def get_frame_effects(self, frame_effects):
+        return self.frame_effects
+    
+    def get_finishes(self, finishes):
+        return self.finishes
+    
+    def get_promo(self, promo):
+        return self.promo
+    
+    def get_variation(self, variation):
+        return self.variation
+    
+    # Prices (Will do later)
