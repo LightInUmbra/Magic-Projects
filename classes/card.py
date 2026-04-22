@@ -76,101 +76,157 @@ class Card:
     
     # Core Identity
     
-    def get_id(self, id):
+    def get_id(self):
         return self.id
     
-    def get_oracle_id(self, oracle_id):
+    def get_oracle_id(self):
         return self.oracle_id
     
-    def get_name(self, name):
+    def get_name(self):
         return self.name
     
-    def get_layout(self, layout):
+    def get_layout(self):
         return self.layout
     
-    def get_language(self, lang):
+    def get_language(self):
         return self.lang
     
     # Gameplay
     
-    def get_mana_cost(self, mana_cost):
+    def get_mana_cost(self):
         return self.mana_cost
     
-    def get_cmc(self, cmc):
+    def get_cmc(self):
         return self.cmc
     
-    def get_type_line(self, type_line):
+    def get_type_line(self):
         return self.type_line
     
-    def get_oracle_text(self, oracle_text):
+    def get_oracle_text(self):
         return self.oracle_text
     
-    def get_colors(self, colors):
+    def get_colors(self):
         return self.colors
     
-    def get_color_identity(self, color_identity):
+    def get_color_identity(self):
         return self.color_identity
     
-    def get_keywords(self, keywords):
+    def get_keywords(self):
         return self.keywords
     
-    def get_power(self, power):
+    def get_power(self):
         return self.power
     
-    def get_toughness(self, toughness):
+    def get_toughness(self):
         return self.toughness
     
-    def get_loyalty(self, loyalty): # For planewalkers
+    def get_loyalty(self):
         return self.loyalty
     
-    def get_defense(self, defense): # For battles
+    def get_defense(self):
         return self.defense
     
     # Print / Edition Info
     
-    def get_set(self, set):
+    def get_set(self):
         return self.set
     
-    def get_set_name(self, set_name):
+    def get_set_name(self):
         return self.set_name
     
-    def get_set_type(self, set_type):
+    def get_set_type(self):
         return self.set_type
     
-    def get_collector_number(self, collector_number):
+    def get_collector_number(self):
         return self.collector_number
     
-    def get_rarity(self, rarity):
+    def get_rarity(self):
         return self.rarity
     
-    def get_artist(self, artist):
+    def get_artist(self):
         return self.artist
     
-    def get_released_at(self, released_at):
+    def get_released_at(self):
         return self.released_at
     
-    def get_reprint(self, reprint):
+    def get_reprint(self):
         return self.reprint
     
-    def get_digital(self, digital):
+    def get_digital(self):
         return self.digital
     
-    def get_booster(self, booster):
+    def get_booster(self):
         return self.booster
     
-    def get_frame(self, frame):
+    def get_frame(self):
         return self.frame
     
-    def get_frame_effects(self, frame_effects):
+    def get_frame_effects(self):
         return self.frame_effects
     
-    def get_finishes(self, finishes):
+    def get_finishes(self):
         return self.finishes
     
-    def get_promo(self, promo):
+    def get_promo(self):
         return self.promo
     
-    def get_variation(self, variation):
+    def get_variation(self):
         return self.variation
     
-    # Prices (Will do later)
+    # Prices
+    
+    def get_price_usd(self):
+        return self.price_usd
+    
+    def get_price_usd_foil(self):
+        return self.price_usd_foil
+    
+    def get_price_eur(self):
+        return self.price_eur
+    
+    def get_price_tix(self):
+        return self.price_tix
+
+    # Legalities
+    
+    def get_legal_standard(self):
+        return self.legal_standard
+    
+    def get_legal_pioneer(self):
+        return self.legal_pioneer
+    
+    def get_legal_modern(self):
+        return self.legal_modern
+    
+    def get_legal_legacy(self):
+        return self.legal_legacy
+    
+    def get_legal_vintage(self):
+        return self.legal_vintage
+    
+    def get_legal_commander(self):
+        return self.legal_commander
+    
+    def get_legal_pauper(self):
+        return self.legal_pauper
+
+    # Images
+    def get_image_small(self):
+        return self.image_small
+    
+    def get_image_normal(self):
+        return self.image_normal
+    
+    def get_image_large(self):
+        return self.image_large
+    
+    def get_image_art_crop(self):
+        return self.image_art_crop
+
+    # Multi-face
+    
+    def get_card_faces(self):
+        return self.card_faces
+    
+    def get_all_parts(self):
+        return self.all_parts
