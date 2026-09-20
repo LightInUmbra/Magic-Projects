@@ -14,18 +14,10 @@ HEADERS = {
     
 }
 
-
-# Searches for cards in scryfall database by name
-# Requires query input
-def search_cards(query):
-    url = f'https://api.scryfall.com/cards/search'
-    params = {
-        
-        "q": query
-        
-    }
+# Helper function for rest of the other functions
+def _paginated_search(url, params):
     all_cards = []
-    
+        
     while url:
         response = requests.get(url, params=params, headers=HEADERS)
         params = {}
@@ -42,15 +34,31 @@ def search_cards(query):
         
     return all_cards
 
+
+# Searches for cards in scryfall database by name
+# Requires query input
+def search_cards(query):
+    url = f'{BASE_URL}/cards/search'
+    params = {
+        
+        "q": query
+        
+    }
+    
+    return _paginated_search(url, params)
+    
+    
+
 # Searches for exact card in database
 # Requires exact input
 def search_exact_card(card):
-    url = f'https://api.scryfall.com/cards/named'
+    url = f'{BASE_URL}/cards/named'
     params = {
         
         "exact": card
         
     }
+    
     response = requests.get(url, params=params, headers=HEADERS)
     
     if response.status_code == 200:
@@ -62,6 +70,33 @@ def search_exact_card(card):
         t.sleep(0.1)
         print(f"Error: {response.status_code} - {response.json().get('details')}")     
         return None
+    
+# Searches for cards in scryfall database by name
+# Requires query input
+def search_cards_by_set(set_code, rarity=None, color=None, card_type=None):
+    
+    # Ensures set_code is lowercase
+    set_code = set_code.lower()
+    
+    # Builds query, starting with the set
+    query = f"e:{set_code}"
+    
+    # For optional filters
+    if rarity:
+        query += f" r:{rarity.lower()}"
+    if color:
+        query += f" c:{color.lower()}"
+    if card_type:
+        query += f" t:{card_type.lower()}"
+    
+    url = f'{BASE_URL}/cards/search'
+    params = {
+        
+        "q": query
+        
+    }
+    
+    return _paginated_search(url, params)
         
 # Grabs how many cards (in numerical form) search_cards found
 # Requires list of cards from search_cards
@@ -94,7 +129,7 @@ def print_card_prices(all_cards, price_type='price_usd'):
 # Gets all printings of a single card
 # Requires card from search_exact_card
 def get_all_printings(card):
-    url = 'https://api.scryfall.com/cards/search'
+    url = f'{BASE_URL}/cards/search'
     
     # TO DO: add order and dir as optional params with sensible defaults. Also include in
     # params dict
@@ -191,7 +226,7 @@ def printings_by_price(all_cards, price_type='price_usd'):
 # Searches for a random card in database
 # Requires exact input
 def get_random_card(query=None):
-    url = f'https://api.scryfall.com/cards/random'
+    url = f'{BASE_URL}/cards/random'
     params = {'q': query} if query else {}
     response = requests.get(url, params=params, headers=HEADERS)
     
@@ -204,45 +239,3 @@ def get_random_card(query=None):
         t.sleep(0.1)
         print(f"Error: {response.status_code} - {response.json().get('details')}")     
         return None
-    
-# Searches for cards in scryfall database by name
-# Requires query input
-def search_cards_by_set(set_code, rarity=None, color=None, card_type=None):
-    
-    # Ensures set_code is lowercase
-    set_code = set_code.lower()
-    
-    # Builds query, starting with the set
-    query = f"e:{set_code}"
-    
-    # For optional filters
-    if rarity:
-        query += f" r:{rarity.lower()}"
-    if color:
-        query += f" c:{color.lower()}"
-    if card_type:
-        query += f" t:{card_type.lower()}"
-    
-    url = f'https://api.scryfall.com/cards/search'
-    params = {
-        
-        "q": query
-        
-    }
-    all_cards = []
-    
-    while url:
-        response = requests.get(url, params=params, headers=HEADERS)
-        params = {}
-    
-        if response.status_code == 200:
-            data = response.json()
-            all_cards.extend([cc.Card(c) for c in data['data']])
-            url = data.get('next_page') if data.get('has_more') else None
-        else:
-            print(f"Error: {response.status_code} - {response.json().get('details')}")     
-            return None
-        
-        t.sleep(0.1)
-        
-    return all_cards
