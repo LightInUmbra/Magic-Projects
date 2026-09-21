@@ -1,5 +1,4 @@
 import requests
-import pandas as pd
 import time as t
 import classes.card as cc
 

@@ -16,16 +16,18 @@ This project is a growing collection of MTG tools built around the Scryfall API,
 ### Planned Features
 
 - Collection Tracker
-- Price tracker with alerts
 - Deck builder and analyzer (Better EDHRec/will work for any format)
 - Web interface (FastAPI + HTML/CSS)
+
+### Ideas / Someday
+
+- Price Tracker with Alerts
 
 ## Built With
 
 - Python
 - Scryfall API
 - requests library (pulling data)
-- pandas (Parse data)
 - PostgreSQL (Planned)
 - FastAPI (Planned)
 
