@@ -174,7 +174,13 @@ def print_all_printings(all_cards):
 # Grabs the most expensive printing of a specific card found in get_all_printings dictionary
 # Requires list of cards from get_all_printings
 def most_expensive_printing(all_printings, price_type='price_usd'):
-    max_card = max(all_printings, key=lambda card: getattr(card, price_type))
+    most_expensive_available = [card for card in all_printings if getattr(card, price_type) > 0.0]
+    
+    if not most_expensive_available:
+        print("No printings with an available price were found.")
+        return None
+    
+    max_card = max(most_expensive_available, key=lambda card: getattr(card, price_type))
     
     print(f"Most Expensive Printing of {max_card.name}")
     print(f"{'─' * 35}")
@@ -191,10 +197,17 @@ def most_expensive_printing(all_printings, price_type='price_usd'):
     print(f"  TIX             : {'N/A' if max_card.price_tix == 0.0 else f'{max_card.price_tix:.2f}'}")
     print(f"{'─' * 35}")
 
+
 # Grabs the cheapest printing of a specific card found in get_all_printings dictionary
 # Requires list of cards from get_all_printings
 def cheapest_printing(all_printings, price_type='price_usd'):
-    min_card = min(all_printings, key=lambda card: getattr(card, price_type))
+    cheapest_available = [card for card in all_printings if getattr(card, price_type) > 0.0]
+    
+    if not cheapest_available:
+        print("No printings with an available price were found.")
+        return None
+    
+    min_card = min(cheapest_available, key=lambda card: getattr(card, price_type))
     
     print(f"Cheapest Printing of {min_card.name}")
     print(f"{'─' * 35}")
@@ -234,7 +247,21 @@ def get_random_card(query=None):
         data = response.json()
         card_pulled = cc.Card(data)
         t.sleep(0.1)
-        return card_pulled        
+        print(f"\nCard Pulled       : {card_pulled.name}")
+        print(f"{'─' * 35}")
+        print(f"  Set             : {card_pulled.set_name}")
+        print(f"  Collector #     : {card_pulled.collector_number}")
+        print(f"  Artist          : {card_pulled.artist}")
+        print(f"  Rarity          : {card_pulled.rarity.capitalize()}")
+        print(f"  Released        : {card_pulled.released_at}")
+        print(f"  Finishes        : {', '.join(card_pulled.finishes)}")
+        print(f"{'─' * 35}")
+        print(f"  USD Nonfoil     : {'N/A' if card_pulled.price_usd == 0.0 else f'${card_pulled.price_usd:.2f}'}")
+        print(f"  USD Foil        : {'N/A' if card_pulled.price_usd_foil == 0.0 else f'${card_pulled.price_usd_foil:.2f}'}")
+        print(f"  EUR             : {'N/A' if card_pulled.price_eur == 0.0 else f'${card_pulled.price_eur:.2f}'}")
+        print(f"  TIX             : {'N/A' if card_pulled.price_tix == 0.0 else f'{card_pulled.price_tix:.2f}'}")
+        print(f"{'─' * 35}")    
+    
     else:
         t.sleep(0.1)
         print(f"Error: {response.status_code} - {response.json().get('details')}")     
