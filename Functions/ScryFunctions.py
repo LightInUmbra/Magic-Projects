@@ -14,7 +14,10 @@ HEADERS = {
     
 }
 
-# Helper function for rest of the other functions
+"""
+Where all the helper functions live
+"""
+
 def _paginated_search(url, params):
     all_cards = []
         
@@ -34,6 +37,11 @@ def _paginated_search(url, params):
         
     return all_cards
 
+def _format_price(price):
+    if price == 0.0:
+        return 'N/A'
+    else:
+        return f"${price:.2f}"
 
 # Searches for cards in scryfall database by name
 # Requires query input
@@ -44,10 +52,7 @@ def search_cards(query):
         "q": query
         
     }
-    
     return _paginated_search(url, params)
-    
-    
 
 # Searches for exact card in database
 # Requires exact input
@@ -58,9 +63,7 @@ def search_exact_card(card):
         "exact": card
         
     }
-    
     response = requests.get(url, params=params, headers=HEADERS)
-    
     if response.status_code == 200:
         data = response.json()
         card_pulled = cc.Card(data)
@@ -74,7 +77,6 @@ def search_exact_card(card):
 # Searches for cards in scryfall database by name
 # Requires query input
 def search_cards_by_set(set_code, rarity=None, color=None, card_type=None):
-    
     # Ensures set_code is lowercase
     set_code = set_code.lower()
     
@@ -95,7 +97,6 @@ def search_cards_by_set(set_code, rarity=None, color=None, card_type=None):
         "q": query
         
     }
-    
     return _paginated_search(url, params)
         
 # Grabs how many cards (in numerical form) search_cards found
@@ -113,7 +114,6 @@ def list_color_identity(all_cards):
         'R': 'Red',
         'G': 'Green'
         }
-    
     for card in all_cards:
         color_names = [COLOR_MAP[color] for color in card.color_identity] if card.color_identity else ['Colorless']
         print(f"{card.name}: {','.join(color_names)}")
@@ -123,7 +123,7 @@ def list_color_identity(all_cards):
 def print_card_prices(all_cards, price_type='price_usd'):
     for card in all_cards:
         price = getattr(card, price_type)
-        price_display = f"${price:.2f}" if price > 0.0 else "N/A"
+        price_display = _format_price(price)
         print(f"{card.name}: {price_display}")
 
 # Gets all printings of a single card
@@ -165,63 +165,75 @@ def print_all_printings(all_cards):
         for card in all_cards:
             print(f"Set: {card.set_name}")
             print(f"  Collector #     : {card.collector_number}")
-            print(f"  USD Nonfoil     : {'N/A' if card.price_usd == 0.0 else f'${card.price_usd:.2f}'}")
-            print(f"  USD Foil        : {'N/A' if card.price_usd_foil == 0.0 else f'${card.price_usd_foil:.2f}'}")
-            print(f"  EUR             : {'N/A' if card.price_eur == 0.0 else f'${card.price_eur:.2f}'}")
+            print(f"  USD Nonfoil     : {_format_price(card.price_usd)}")
+            print(f"  USD Foil        : {_format_price(card.price_usd_foil)}")
+            print(f"  EUR             : {_format_price(card.price_eur)}")
             print(f"  TIX             : {'N/A' if card.price_tix == 0.0 else f'{card.price_tix:.2f}'}")
             print(f"{'─' * 35}")
 
 # Grabs the most expensive printing of a specific card found in get_all_printings dictionary
 # Requires list of cards from get_all_printings
-def most_expensive_printing(all_printings, price_type='price_usd'):
+def get_most_expensive_printing(all_printings, price_type='price_usd'):
     most_expensive_available = [card for card in all_printings if getattr(card, price_type) > 0.0]
     
     if not most_expensive_available:
-        print("No printings with an available price were found.")
         return None
     
-    max_card = max(most_expensive_available, key=lambda card: getattr(card, price_type))
+    return max(most_expensive_available, key=lambda card: getattr(card, price_type))
     
-    print(f"Most Expensive Printing of {max_card.name}")
+# Prints the most expensive printing
+# Requires card from most_expensive_printing
+def print_most_expensive_printing(card):
+    if card is None:
+        print("No printings with an available price were found.")
+        return
+    
+    print(f"Most Expensive Printing of {card.name}")
     print(f"{'─' * 35}")
-    print(f"  Set             : {max_card.set_name}")
-    print(f"  Collector #     : {max_card.collector_number}")
-    print(f"  Artist          : {max_card.artist}")
-    print(f"  Rarity          : {max_card.rarity.capitalize()}")
-    print(f"  Released        : {max_card.released_at}")
-    print(f"  Finishes        : {', '.join(max_card.finishes)}")
+    print(f"  Set             : {card.set_name}")
+    print(f"  Collector #     : {card.collector_number}")
+    print(f"  Artist          : {card.artist}")
+    print(f"  Rarity          : {card.rarity.capitalize()}")
+    print(f"  Released        : {card.released_at}")
+    print(f"  Finishes        : {', '.join(card.finishes)}")
     print(f"{'─' * 35}")
-    print(f"  USD Nonfoil     : {'N/A' if max_card.price_usd == 0.0 else f'${max_card.price_usd:.2f}'}")
-    print(f"  USD Foil        : {'N/A' if max_card.price_usd_foil == 0.0 else f'${max_card.price_usd_foil:.2f}'}")
-    print(f"  EUR             : {'N/A' if max_card.price_eur == 0.0 else f'${max_card.price_eur:.2f}'}")
-    print(f"  TIX             : {'N/A' if max_card.price_tix == 0.0 else f'{max_card.price_tix:.2f}'}")
+    print(f"  USD Nonfoil     : {_format_price(card.price_usd)}")
+    print(f"  USD Foil        : {_format_price(card.price_usd_foil)}")
+    print(f"  EUR             : {_format_price(card.price_eur)}")
+    print(f"  TIX             : {'N/A' if card.price_tix == 0.0 else f'{card.price_tix:.2f}'}")
     print(f"{'─' * 35}")
 
 
 # Grabs the cheapest printing of a specific card found in get_all_printings dictionary
 # Requires list of cards from get_all_printings
-def cheapest_printing(all_printings, price_type='price_usd'):
+def get_cheapest_printing(all_printings, price_type='price_usd'):
     cheapest_available = [card for card in all_printings if getattr(card, price_type) > 0.0]
     
     if not cheapest_available:
-        print("No printings with an available price were found.")
         return None
     
-    min_card = min(cheapest_available, key=lambda card: getattr(card, price_type))
+    return min(cheapest_available, key=lambda card: getattr(card, price_type))
+
+# Prints the cheapest printing
+# Requires card from get_cheapest_printing
+def print_cheapest_printing(card):
+    if card is None:
+        print("No printings with an available price were found.")
+        return
     
-    print(f"Cheapest Printing of {min_card.name}")
+    print(f"Cheapest Printing of {card.name}")
     print(f"{'─' * 35}")
-    print(f"  Set             : {min_card.set_name}")
-    print(f"  Collector #     : {min_card.collector_number}")
-    print(f"  Artist          : {min_card.artist}")
-    print(f"  Rarity          : {min_card.rarity.capitalize()}")
-    print(f"  Released        : {min_card.released_at}")
-    print(f"  Finishes        : {', '.join(min_card.finishes)}")
+    print(f"  Set             : {card.set_name}")
+    print(f"  Collector #     : {card.collector_number}")
+    print(f"  Artist          : {card.artist}")
+    print(f"  Rarity          : {card.rarity.capitalize()}")
+    print(f"  Released        : {card.released_at}")
+    print(f"  Finishes        : {', '.join(card.finishes)}")
     print(f"{'─' * 35}")
-    print(f"  USD Nonfoil     : {'N/A' if min_card.price_usd == 0.0 else f'${min_card.price_usd:.2f}'}")
-    print(f"  USD Foil        : {'N/A' if min_card.price_usd_foil == 0.0 else f'${min_card.price_usd_foil:.2f}'}")
-    print(f"  EUR             : {'N/A' if min_card.price_eur == 0.0 else f'${min_card.price_eur:.2f}'}")
-    print(f"  TIX             : {'N/A' if min_card.price_tix == 0.0 else f'{min_card.price_tix:.2f}'}")
+    print(f"  USD Nonfoil     : {_format_price(card.price_usd)}")
+    print(f"  USD Foil        : {_format_price(card.price_usd_foil)}")
+    print(f"  EUR             : {_format_price(card.price_eur)}")
+    print(f"  TIX             : {'N/A' if card.price_tix == 0.0 else f'{card.price_tix:.2f}'}")
     print(f"{'─' * 35}")
     
 # Sorts printings of a specific card found in get_all_printings by price
@@ -247,22 +259,30 @@ def get_random_card(query=None):
         data = response.json()
         card_pulled = cc.Card(data)
         t.sleep(0.1)
-        print(f"\nCard Pulled       : {card_pulled.name}")
-        print(f"{'─' * 35}")
-        print(f"  Set             : {card_pulled.set_name}")
-        print(f"  Collector #     : {card_pulled.collector_number}")
-        print(f"  Artist          : {card_pulled.artist}")
-        print(f"  Rarity          : {card_pulled.rarity.capitalize()}")
-        print(f"  Released        : {card_pulled.released_at}")
-        print(f"  Finishes        : {', '.join(card_pulled.finishes)}")
-        print(f"{'─' * 35}")
-        print(f"  USD Nonfoil     : {'N/A' if card_pulled.price_usd == 0.0 else f'${card_pulled.price_usd:.2f}'}")
-        print(f"  USD Foil        : {'N/A' if card_pulled.price_usd_foil == 0.0 else f'${card_pulled.price_usd_foil:.2f}'}")
-        print(f"  EUR             : {'N/A' if card_pulled.price_eur == 0.0 else f'${card_pulled.price_eur:.2f}'}")
-        print(f"  TIX             : {'N/A' if card_pulled.price_tix == 0.0 else f'{card_pulled.price_tix:.2f}'}")
-        print(f"{'─' * 35}")    
-    
+        return card_pulled
     else:
         t.sleep(0.1)
         print(f"Error: {response.status_code} - {response.json().get('details')}")     
         return None
+
+# Prints random card
+# Requires random card from get_random_card
+def print_random_card(card):
+    if card is None:
+        print("No cards were found.")
+        return
+        
+    print(f"\nCard Pulled       : {card.name}")
+    print(f"{'─' * 35}")
+    print(f"  Set             : {card.set_name}")
+    print(f"  Collector #     : {card.collector_number}")
+    print(f"  Artist          : {card.artist}")
+    print(f"  Rarity          : {card.rarity.capitalize()}")
+    print(f"  Released        : {card.released_at}")
+    print(f"  Finishes        : {', '.join(card.finishes)}")
+    print(f"{'─' * 35}")
+    print(f"  USD Nonfoil     : {_format_price(card.price_usd)}")
+    print(f"  USD Foil        : {_format_price(card.price_usd_foil)}")
+    print(f"  EUR             : {_format_price(card.price_eur)}")
+    print(f"  TIX             : {'N/A' if card.price_tix == 0.0 else f'{card.price_tix:.2f}'}")
+    print(f"{'─' * 35}")

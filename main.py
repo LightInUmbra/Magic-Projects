@@ -80,7 +80,8 @@ def main():
             if cards is None:
                 print(f"Sorry, but your search for {query} yielded no results or the API is having some issues. Please try again later.")
             else:
-                sf.most_expensive_printing(cards)
+                card_needed = sf.get_most_expensive_printing(cards)
+                sf.print_most_expensive_printing(card_needed)
         elif choice == 6:
             query = input("\nWhich card do you need the cheapest printing for? ")
             cards = sf.get_all_printings(query)
@@ -88,9 +89,11 @@ def main():
             if cards is None:
                 print(f"Sorry, but your search for {query} yielded no results or the API is having some issues. Please try again later.")
             else:
-                sf.cheapest_printing(cards)
+                card_needed = sf.get_cheapest_printing(cards)
+                sf.print_cheapest_printing(card_needed)
         elif choice == 7:
-            sf.get_random_card()
+            card = sf.get_random_card()
+            sf.print_random_card(card)
         elif choice == 8:
             sys.exit()
       
