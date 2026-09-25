@@ -43,6 +43,7 @@ class Card:
         prices               = data.get('prices', {})
         self.price_usd       = float(prices.get('usd') if prices.get('usd') is not None else 0.0)            # String or None
         self.price_usd_foil  = float(prices.get('usd_foil') if prices.get('usd_foil') is not None else 0.0)
+        self.price_usd_etched = float(prices.get('usd_etched') if prices.get('usd_etched') is not None else 0.0)
         self.price_eur       = float(prices.get('eur') if prices.get('eur') is not None else 0.0)
         self.price_tix       = float(prices.get('tix') if prices.get('tix') is not None else 0.0)            # MTGO tickets
 
@@ -180,6 +181,9 @@ class Card:
     
     def get_price_usd_foil(self):
         return self.price_usd_foil
+
+    def get_price_usd_etched(self):
+        return self.price_usd_etched
     
     def get_price_eur(self):
         return self.price_eur
